@@ -1,10 +1,49 @@
+<?php
+  // Check if the form has been submitted
+  if (isset($_POST['Sign In'])) {
+      // Set connection variables
+      $server = "localhost";
+      $username = "root";
+      $password = "";
+
+      // Create a database connection
+      $con = mysqli_connect($server, $username, $password);
+      
+      
+
+      // Check for connection success
+      if (!$con) {
+          die("Connection failed: ".mysqli_connect_error());
+      }
+
+      // Collect post variables with the correct names from the form
+      $name  = $_POST['name'];
+      $email = $_POST['email'];
+      $phone = $_POST['phone'];
+      $add   = $_POST['add'];
+      $username   = $_POST['$username'];
+
+      $sql = "INSERT INTO `real`.`signindb` (`sno`, `name`, `email`, `phone`, `add`, `username`, `dt`) VALUES ( '$name', '$email', '$phone', '$add', '$username', 'current_timestamp());";
+
+      // Execute the query
+      if ($con->query($sql) === true) {
+          // Successfully inserted, output a success message.
+          echo "<p style='text-align:center; color:green;'>Sign-in successful!</p>";
+      } else {
+          echo "ERROR: $sql <br>" . $con->error;
+      }
+
+      // Close the database connection
+      $con->close();
+  }
+  ?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sign-in | Foodsta </title>
+  <title>Sign-in </title>
   <style>
     /* Reset default browser styles */
     * {
@@ -164,7 +203,7 @@
 <body>
   <nav class="navbar">
     <div class="logo">
-      <img src="real-logo.jpeg" alt="Burger King Logo" />
+      <img src="real-logo.jpeg" alt="Foodsta Logo" />
     </div>
     <ul class="nav-links">
       <li><a href="index.html">Home</a></li>
@@ -177,62 +216,28 @@
   <section class="contact-section">
     <h2>Sign-in</h2>
     <form class="contact-form" method="post">
+      
       <input type="text" name="name" placeholder="Your Name" required>
+
       <input type="email" name="email" placeholder="Your Email" required>
+
       <input type="tel" name="phone" placeholder="Your Phone" required>
-      <!-- Changed input name to "date" -->
-      <input type="date" name="date" placeholder="Select Date" required>
-      <!-- Changed input name to "location" -->
-      <input type="text" name="location" placeholder="Your Address" required>
+
+      <input type="" name="location" placeholder="Your Address" required>
+
+      <input type="text" name="username" placeholder="Your Username" required>
+
       <input type="submit" value="Sign In">
+
     </form>
   </section>
 
   <footer class="footer">
     <p>© 2024 Foodsta</p>
-    <p>Made with <span style="color: red;">&#9829;</span> by the Foodst Team</p>
+    <p>Made with <span style="color: red;">&#9829;</span> by the Foodsta Team</p>
   </footer>
 
-  <?php
-  // Check if the form has been submitted
-  if (isset($_POST['Sign In'])) {
-      // Set connection variables
-      $server = "localhost";
-      $username = "root";
-      $password = "";
-
-      // Create a database connection
-      $con = mysqli_connect($server, $username, $password);
-      
-      
-
-      // Check for connection success
-      if (!$con) {
-          die("Connection failed: " . mysqli_connect_error());
-      }
-
-      // Collect post variables with the correct names from the form
-      $name     = $_POST['name'];
-      $email    = $_POST['email'];
-      $phone    = $_POST['phone'];
-      $dob     = $_POST['dob'];
-      $add = $_POST['add'];
-
-
-      $sql = "INSERT INTO `login` (`sno`, `name`, `email`, `phone`, `dob`, `add`, `dt`) VALUES ( '$name', '$email', '$phone', '$dob', '$add', 'current_timestamp());";
-
-      // Execute the query
-      if ($con->query($sql) === true) {
-          // Successfully inserted, output a success message.
-          echo "<p style='text-align:center; color:green;'>Sign-in successful!</p>";
-      } else {
-          echo "ERROR: $sql <br>" . $con->error;
-      }
-
-      // Close the database connection
-      $con->close();
-  }
-  ?>
+  
 </body>
 
 </html>
